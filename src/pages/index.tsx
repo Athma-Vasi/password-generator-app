@@ -88,7 +88,7 @@ const Home: NextPage = () => {
         </p>
 
         {isCopyClicked ? (
-          <FaCheck className="scale-150 text-myTeal" />
+          <FaCheck className="scale-150 text-myTeal " />
         ) : (
           <AiOutlineCopy
             className="scale-150 text-myTeal hover:cursor-pointer"
@@ -100,7 +100,7 @@ const Home: NextPage = () => {
       {/* options */}
       <div className="grid h-[85%] grid-rows-6">
         {/* char length */}
-        <div className="row-span-1 flex flex-row items-center justify-between bg-myLightGrey px-4">
+        <div className="row-span-1 -mb-3 flex flex-row items-center justify-between bg-myLightGrey px-4">
           <p className="text-gray-100 sm:text-xl md:text-2xl">
             Character Length
           </p>
@@ -123,7 +123,7 @@ const Home: NextPage = () => {
               max="32"
               value={charLength}
               onChange={(event) => setCharLength(event.currentTarget.value)}
-              className="w-full"
+              className="-mt-6 w-full"
             />
           </div>
 
@@ -232,7 +232,7 @@ const Home: NextPage = () => {
         </form>
       </div>
       {noneInputsSelected && (
-        <p className=" absolute text-slate-400 xs:top-[146px] sm:top-[146px] md:top-[156px]">
+        <p className=" absolute text-slate-400 xs:top-[146px] xs:text-sm sm:top-[146px] md:top-[160px]">
           Please select an input, then click generate
         </p>
       )}
