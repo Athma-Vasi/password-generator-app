@@ -8,5 +8,5 @@ html,
 body,
 #root,
 .app {
-  @apply h-full w-full bg-gradient-to-b from-gray-900 to-black p-8 font-inconsolata outline-dotted;
+  @apply h-full w-full bg-gradient-to-b from-gray-900 to-black p-8 font-inconsolata;
 }
