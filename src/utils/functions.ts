@@ -105,6 +105,20 @@ function getRandKey(
     if (randFunc !== undefined) return randFunc(chars);
   }
 
+  //uppercase, lowercase and symbols only
+  if (
+    formMapObj.get("number") === undefined &&
+    formMapObj.get("upperCase") &&
+    formMapObj.get("lowerCase") &&
+    formMapObj.get("symbol")
+  ) {
+    //if random func returns undefined, larger pool of uppercase chars is selected
+    const randInt = random.choice([0, 1, 3]) ?? 0;
+    const randFunc = getKeyMap.get(randInt);
+
+    if (randFunc !== undefined) return randFunc(chars);
+  }
+
   //uppercase, numbers and symbols only
   if (
     formMapObj.get("lowerCase") === undefined &&
