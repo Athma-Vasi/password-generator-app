@@ -1,13 +1,9 @@
 import type { Chars, FunctionsMap, ReturnRandomStringProps } from "../../types";
 import random from "random";
 
-const chars = {
-  upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  lowerCase: "abcdefghijklmnopqrstuvwxyz",
-  number: "0123456789",
-  symbol: "#$%^&*()_+~\\`|}{[]:;?><,./-=",
-};
-
+/**
+ * @description Map of [number, (chars: Chars):string] pairs used to return a function based on a randomly generated key
+ */
 const functionsMap: FunctionsMap = new Map([
   [
     0,
@@ -39,6 +35,20 @@ const functionsMap: FunctionsMap = new Map([
   ],
 ]);
 
+/**
+ * @description Returns a random string based on the selected options by calling a function from the functionsMap map based on a randomly generated key between 0 and 3 (inclusive). The length of the string is determined by the charLength prop
+ *
+ * @function
+ * @param {ReturnRandomStringProps} props
+ * @param {number} props.charLength - The length of the string to be returned
+ * @param {boolean} props.upperCase - Whether or not to include uppercase characters in the string
+ * @param {boolean} props.lowerCase - Whether or not to include lowercase characters in the string
+ * @param {boolean} props.number - Whether or not to include numbers in the string
+ * @param {boolean} props.symbol - Whether or not to include symbols in the string
+ * @param {FunctionsMap} props.functionsMap - The map of functions to be called based on a randomly generated key
+ * @returns {string} - The randomly generated string
+ *
+ */
 function returnRandomString({
   charLength = 8,
   upperCase = false,
@@ -215,4 +225,4 @@ function returnRandomString({
   return result;
 }
 
-export { functionsMap, returnRandomString, chars };
+export { functionsMap, returnRandomString };

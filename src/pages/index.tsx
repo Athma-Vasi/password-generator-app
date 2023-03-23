@@ -1,11 +1,11 @@
 import { type NextPage } from "next";
+import { type State } from "../../types";
 
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 import React, { useReducer } from "react";
 import { functionsMap, returnRandomString } from "../utils/functions";
 import { initialState, stateActions, stateReducer } from "../state";
-import { State } from "../../types";
 
 const Home: NextPage = () => {
   const [state, dispatch] = useReducer(stateReducer, initialState);
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
     } = state;
 
     // set password strength
-    let amountOfParamsSelected = [
+    const amountOfParamsSelected = [
       isUpperCaseSelected,
       isLowerCaseSelected,
       isNumberSelected,
