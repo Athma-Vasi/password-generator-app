@@ -1,69 +1,91 @@
 import { type NextPage } from "next";
-import type { Chars, FormMapObj } from "../../types";
 
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 import React, { useState } from "react";
-import { chars, getKeyMap, getRandKey } from "../utils/functions";
+import { functionsMap, returnRandomString } from "../utils/functions";
 
 const Home: NextPage = () => {
   const [charLength, setCharLength] = useState("20");
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [noneInputsSelected, setNoneInputsSelected] = useState(true);
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const [isCopyClicked, setIsCopyClicked] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  //
+  const [isUpperCaseIncluded, setIsUpperCaseIncluded] = useState(false);
+  const [isLowerCaseIncluded, setIsLowerCaseIncluded] = useState(false);
+  const [isNumberIncluded, setIsNumberIncluded] = useState(false);
+  const [isSymbolIncluded, setIsSymbolIncluded] = useState(false);
 
   function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const formMap = [...formData.entries()].reduce(
-      (
-        mapObj: Map<FormMapObj, string>,
-        [formInput, inputValue]: [string, FormDataEntryValue]
-      ) => {
-        //form input values are all strings
-        mapObj.set(
-          formInput as keyof Chars | "charLength",
-          inputValue as string
-        );
+    console.log(formData.get("upperCase"));
+    console.log(formData.get("lowerCase"));
+    console.log(formData.get("number"));
+    console.log(formData.get("symbol"));
+    console.log(isUpperCaseIncluded);
+    console.log(isLowerCaseIncluded);
+    console.log(isNumberIncluded);
+    console.log(isSymbolIncluded);
 
-        return mapObj;
-      },
-      new Map()
-    );
+    // set password strength
+    const amountOfParamsSelected = [
+      isUpperCaseIncluded,
+      isLowerCaseIncluded,
+      isNumberIncluded,
+      isSymbolIncluded,
+    ].filter((param) => param).length;
 
-    if (
-      formMap.get("upperCase") === undefined &&
-      formMap.get("lowerCase") === undefined &&
-      formMap.get("number") === undefined &&
-      formMap.get("symbol") === undefined
-    ) {
-      setNoneInputsSelected(() => true);
-    } else {
-      setNoneInputsSelected(() => false);
-
-      if (formMap.size === 2) {
+    switch (amountOfParamsSelected) {
+      case 0: {
+        setNoneInputsSelected(() => true);
+        break;
+      }
+      case 1: {
+        setNoneInputsSelected(() => false);
         setPasswordStrength(() => 25);
+        break;
       }
-      if (formMap.size === 3) {
+      case 2: {
+        setNoneInputsSelected(() => false);
         setPasswordStrength(() => 50);
+        break;
       }
-      if (formMap.size === 4) {
+      case 3: {
+        setNoneInputsSelected(() => false);
         setPasswordStrength(() => 75);
+        break;
       }
-      if (formMap.size === 5) {
+      case 4: {
+        setNoneInputsSelected(() => false);
         setPasswordStrength(() => 100);
+        break;
+      }
+      default: {
+        setNoneInputsSelected(() => true);
+        break;
       }
     }
 
+    // generate password
     if (!noneInputsSelected) {
       let generatedPass = "";
       while (generatedPass.length < Number(charLength)) {
-        generatedPass += getRandKey(getKeyMap, chars, formMap);
+        generatedPass = returnRandomString({
+          upperCase: isUpperCaseIncluded,
+          lowerCase: isLowerCaseIncluded,
+          number: isNumberIncluded,
+          symbol: isSymbolIncluded,
+          charLength: Number(charLength),
+          functionsMap,
+        });
       }
 
       setGeneratedPassword(() => generatedPass);
+    } else {
+      setGeneratedPassword(() => "");
     }
 
     setIsCopyClicked(() => false);
@@ -133,6 +155,9 @@ const Home: NextPage = () => {
               type="checkbox"
               name="upperCase"
               id="upperCase"
+              onChange={(event) =>
+                setIsUpperCaseIncluded(event.currentTarget.checked)
+              }
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">
@@ -146,6 +171,9 @@ const Home: NextPage = () => {
               type="checkbox"
               name="lowerCase"
               id="lowerCase"
+              onChange={(event) =>
+                setIsLowerCaseIncluded(event.currentTarget.checked)
+              }
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">
@@ -159,6 +187,9 @@ const Home: NextPage = () => {
               type="checkbox"
               name="number"
               id="number"
+              onChange={(event) =>
+                setIsNumberIncluded(event.currentTarget.checked)
+              }
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">Include Numbers</p>
@@ -170,6 +201,9 @@ const Home: NextPage = () => {
               type="checkbox"
               name="symbol"
               id="symbol"
+              onChange={(event) =>
+                setIsSymbolIncluded(event.currentTarget.checked)
+              }
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">Include Symbols</p>

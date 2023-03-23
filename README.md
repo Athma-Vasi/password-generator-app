@@ -1,28 +1,19 @@
-# Create T3 App
+# Password Generator App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a simple password generator app that generates a random password. The user can select the length of the password (8-32 characters), and include lowercase, uppercase, numeric, and/or special characters. The app will then generate a random password based on the user's selections.
 
-## What's next? How do I make an app with this?
+This is a challenge from [frontendmentor](https://www.frontendmentor.io/challenges/password-generator-app-Mr8CLycqjh).
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+**Here is the challenge brief:**
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Your challenge is to build out this password generator app and get it looking as close to the design as possible. Sketch and Figma files are provided if you want to use them.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
 
-## Learn More
+Your users should be able to:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+-Generate a password based on the selected inclusion options
+-Copy the generated password to the computer's clipboard
+-See a strength rating for their generated password
+-View the optimal layout for the interface depending on their device's screen size
+-See hover and focus states for all interactive elements on the page

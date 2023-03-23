@@ -5,6 +5,15 @@ export type Chars = {
   symbol: string;
 };
 
-export type GetKeyMap = Map<number, (chars: Chars) => string>;
+export type FunctionsMap = Map<number, (chars: Chars) => string>;
 
 export type FormMapObj = keyof Chars | "charLength";
+
+export type ReturnRandomStringProps = {
+  charLength: number;
+  upperCase: boolean;
+  lowerCase: boolean;
+  number: boolean;
+  symbol: boolean;
+  functionsMap: FunctionsMap;
+};
