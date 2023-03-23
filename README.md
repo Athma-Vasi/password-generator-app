@@ -7,6 +7,9 @@ This is a simple password generator app that generates a random password. The us
 #### Screenshot
 
 <div align="center">
+  <img src="./src/images/app-weak-strength.png" alt="screenshot of app" width='200px'></img>
+  <img src="./src/images/app-medium-strength.png" alt="screenshot of app" width='200px'></img>
+  <img src="./src/images/app-strong-strength.png" alt="screenshot of app" width='200px'></img>
   <img src="./src/images/app-crypto-strength.png" alt="screenshot of app" width='200px'></img>
 </div>
 
