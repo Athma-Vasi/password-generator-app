@@ -2,6 +2,14 @@
 
 This is a simple password generator app that generates a random password. The user can select the length of the password (8-32 characters), and include lowercase, uppercase, numeric, and/or special characters. The app will then generate a random password based on the user's selections.
 
+#### [Click here to view live project](https://password-generator-app-sable.vercel.app/)
+
+#### Screenshot
+
+<div align="center">
+  <img src="./src/images/app-crypto-strength.png" alt="screenshot of app"></img>
+</div>
+
 #### Technologies used:
 
 - [T3 Stack](https://create-t3-app-docs.vercel.app/en/introduction): Tailwind CSS and TypeScript only
