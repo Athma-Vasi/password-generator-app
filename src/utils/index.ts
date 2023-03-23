@@ -4,7 +4,7 @@ import type {
   StateActions,
   StateDispatch,
 } from "../types";
-import random from "random";
+import random, { Random } from "random";
 
 /**
  * @description Map of [number, (chars: Chars) => string] pairs used to return a function based on a randomly generated key

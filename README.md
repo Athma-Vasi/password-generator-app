@@ -1,6 +1,6 @@
 # Password Generator App
 
-This is a simple password generator app that generates a random password. The user can select the length of the password (8-32 characters), and include lowercase, uppercase, numeric, and/or special characters. The app will then generate a random password based on the user's selections.
+This is a simple password generator app that generates a random password based on user selecteable parameters such as length, lowercase, uppercase, numeric, and/or special characters. The package used is the [random](https://www.npmjs.com/package/random) npm library, which uses `Math.random()` as the underlying PRNG. The app also provides a strength rating for the generated password.
 
 #### [Click here to view live project](https://password-generator-app-sable.vercel.app/)
 
