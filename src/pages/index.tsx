@@ -4,7 +4,11 @@ import { type State } from "../../types";
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 import React, { useReducer } from "react";
-import { functionsMap, returnRandomString } from "../utils/functions";
+import {
+  functionsMap,
+  returnRandomString,
+  setPasswordStrengthState,
+} from "../utils/functions";
 import { initialState, stateActions, stateReducer } from "../state";
 
 const Home: NextPage = () => {
@@ -34,90 +38,18 @@ const Home: NextPage = () => {
     setIsSymbolSelected,
   } = stateActions;
 
-  function setPasswordStrengthState(state: State) {
-    const {
-      isUpperCaseSelected,
-      isLowerCaseSelected,
-      isNumberSelected,
-      isSymbolSelected,
-      charLength,
-    } = state;
-
-    // set password strength
-    const amountOfParamsSelected = [
-      isUpperCaseSelected,
-      isLowerCaseSelected,
-      isNumberSelected,
-      isSymbolSelected,
-    ].filter((param) => param).length;
-
-    switch (amountOfParamsSelected) {
-      case 0: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: true,
-        });
-        break;
-      }
-      case 1: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: false,
-        });
-        dispatch({
-          type: setPasswordStrength,
-          payload: 25,
-        });
-        break;
-      }
-      case 2: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: false,
-        });
-        dispatch({
-          type: setPasswordStrength,
-          payload: 50,
-        });
-        break;
-      }
-      case 3: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: false,
-        });
-        dispatch({
-          type: setPasswordStrength,
-          payload: 75,
-        });
-        break;
-      }
-      case 4: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: false,
-        });
-        dispatch({
-          type: setPasswordStrength,
-          payload: 100,
-        });
-        break;
-      }
-      default: {
-        dispatch({
-          type: setNoneInputsSelected,
-          payload: true,
-        });
-        break;
-      }
-    }
-  }
-
   function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // set password strength
-    setPasswordStrengthState(state);
+    setPasswordStrengthState({
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      stateDispatch: dispatch,
+      stateActions,
+    });
 
     // generate password
     if (!noneInputsSelected) {
@@ -172,18 +104,15 @@ const Home: NextPage = () => {
       payload: isUpperCaseSelected,
     });
 
-    // if all inputs are deselected, set noneInputsSelected to true
-    if (
-      !isUpperCaseSelected &&
-      !isLowerCaseSelected &&
-      !isNumberSelected &&
-      !isSymbolSelected
-    ) {
-      dispatch({
-        type: setNoneInputsSelected,
-        payload: true,
-      });
-    }
+    // if all inputs are deselected, set noneInputsSelected to true, else set it to false and also set password strength state
+    setPasswordStrengthState({
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      stateDispatch: dispatch,
+      stateActions,
+    });
   }
 
   function handleLowercaseSelected(event: React.ChangeEvent<HTMLInputElement>) {
@@ -193,18 +122,15 @@ const Home: NextPage = () => {
       payload: isLowerCaseSelected,
     });
 
-    // if all inputs are deselected, set noneInputsSelected to true
-    if (
-      !isUpperCaseSelected &&
-      !isLowerCaseSelected &&
-      !isNumberSelected &&
-      !isSymbolSelected
-    ) {
-      dispatch({
-        type: setNoneInputsSelected,
-        payload: true,
-      });
-    }
+    // if all inputs are deselected, set noneInputsSelected to true, else set it to false and also set password strength state
+    setPasswordStrengthState({
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      stateDispatch: dispatch,
+      stateActions,
+    });
   }
 
   function handleNumberSelected(event: React.ChangeEvent<HTMLInputElement>) {
@@ -214,18 +140,15 @@ const Home: NextPage = () => {
       payload: isNumberSelected,
     });
 
-    // if all inputs are deselected, set noneInputsSelected to true
-    if (
-      !isUpperCaseSelected &&
-      !isLowerCaseSelected &&
-      !isNumberSelected &&
-      !isSymbolSelected
-    ) {
-      dispatch({
-        type: setNoneInputsSelected,
-        payload: true,
-      });
-    }
+    // if all inputs are deselected, set noneInputsSelected to true, else set it to false and also set password strength state
+    setPasswordStrengthState({
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      stateDispatch: dispatch,
+      stateActions,
+    });
   }
 
   function handleSymbolSelected(event: React.ChangeEvent<HTMLInputElement>) {
@@ -235,18 +158,15 @@ const Home: NextPage = () => {
       payload: isSymbolSelected,
     });
 
-    // if all inputs are deselected, set noneInputsSelected to true
-    if (
-      !isUpperCaseSelected &&
-      !isLowerCaseSelected &&
-      !isNumberSelected &&
-      !isSymbolSelected
-    ) {
-      dispatch({
-        type: setNoneInputsSelected,
-        payload: true,
-      });
-    }
+    // if all inputs are deselected, set noneInputsSelected to true, else set it to false and also set password strength state
+    setPasswordStrengthState({
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      stateDispatch: dispatch,
+      stateActions,
+    });
   }
 
   return (
@@ -362,13 +282,22 @@ const Home: NextPage = () => {
             {/* right section */}
             <div className="flex w-[55%] flex-row items-center justify-between  sm:w-[42%] md:h-[50px] md:w-[38%]">
               <p className="text-xl font-bold tracking-wide md:text-2xl ">
-                {passwordStrength < 25
+                {/* {passwordStrength < 25
                   ? "EASY"
                   : passwordStrength < 50
                   ? "WEAK"
                   : passwordStrength < 75
                   ? "MEDIUM"
                   : passwordStrength < 100
+                  ? "STRONG"
+                  : "CRYPTO"} */}
+                {passwordStrength === 0
+                  ? ""
+                  : passwordStrength === 25
+                  ? "WEAK"
+                  : passwordStrength === 50
+                  ? "MEDIUM"
+                  : passwordStrength === 75
                   ? "STRONG"
                   : "CRYPTO"}
               </p>

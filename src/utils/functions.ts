@@ -1,39 +1,53 @@
-import type { Chars, FunctionsMap, ReturnRandomStringProps } from "../../types";
+import type {
+  Chars,
+  FunctionsMap,
+  StateActions,
+  StateDispatch,
+} from "../../types";
 import random from "random";
 
 /**
- * @description Map of [number, (chars: Chars):string] pairs used to return a function based on a randomly generated key
+ * @description Map of [number, (chars: Chars) => string] pairs used to return a function based on a randomly generated key
  */
 const functionsMap: FunctionsMap = new Map([
   [
     0,
-    function returnRandUppercaseChar(chars: Chars) {
+    function returnRandUppercaseChar(chars: Chars): string {
       const length = chars.upperCase.length;
       return chars.upperCase[random.int(0, length - 1)] ?? "";
     },
   ],
   [
     1,
-    function returnRandLowercaseChar(chars: Chars) {
+    function returnRandLowercaseChar(chars: Chars): string {
       const length = chars.lowerCase.length;
       return chars.lowerCase[random.int(0, length - 1)] ?? "";
     },
   ],
   [
     2,
-    function returnRandNumberChar(chars: Chars) {
+    function returnRandNumberChar(chars: Chars): string {
       const length = chars.number.length;
       return chars.number[random.int(0, length - 1)] ?? "";
     },
   ],
   [
     3,
-    function returnRandSymbolChar(chars: Chars) {
+    function returnRandSymbolChar(chars: Chars): string {
       const length = chars.symbol.length;
       return chars.symbol[random.int(0, length - 1)] ?? "";
     },
   ],
 ]);
+
+export type ReturnRandomStringProps = {
+  charLength: number;
+  upperCase: boolean;
+  lowerCase: boolean;
+  number: boolean;
+  symbol: boolean;
+  functionsMap: FunctionsMap;
+};
 
 /**
  * @description Returns a random string based on the selected options by calling a function from the functionsMap map based on a randomly generated key between 0 and 3 (inclusive). The length of the string is determined by the charLength prop
@@ -56,7 +70,7 @@ function returnRandomString({
   number = false,
   symbol = false,
   functionsMap,
-}: ReturnRandomStringProps) {
+}: ReturnRandomStringProps): string {
   const chars: Chars = {
     upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     lowerCase: "abcdefghijklmnopqrstuvwxyz",
@@ -225,4 +239,98 @@ function returnRandomString({
   return result;
 }
 
-export { functionsMap, returnRandomString };
+type SetPasswordStrengthStateProps = {
+  isUpperCaseSelected: boolean;
+  isLowerCaseSelected: boolean;
+  isNumberSelected: boolean;
+  isSymbolSelected: boolean;
+  stateDispatch: React.Dispatch<StateDispatch>;
+  stateActions: StateActions;
+};
+
+function setPasswordStrengthState({
+  isUpperCaseSelected,
+  isLowerCaseSelected,
+  isNumberSelected,
+  isSymbolSelected,
+  stateDispatch,
+  stateActions,
+}: SetPasswordStrengthStateProps): void {
+  const { setPasswordStrength, setNoneInputsSelected } = stateActions;
+
+  // find out how many params are selected
+  const amountOfParamsSelected = [
+    isUpperCaseSelected,
+    isLowerCaseSelected,
+    isNumberSelected,
+    isSymbolSelected,
+  ].filter((param) => param).length;
+
+  // set password strength based on how many params are selected
+  switch (amountOfParamsSelected) {
+    case 0: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+      stateDispatch({
+        type: setPasswordStrength,
+        payload: 0,
+      });
+      break;
+    }
+    case 1: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: false,
+      });
+      stateDispatch({
+        type: setPasswordStrength,
+        payload: 25,
+      });
+      break;
+    }
+    case 2: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: false,
+      });
+      stateDispatch({
+        type: setPasswordStrength,
+        payload: 50,
+      });
+      break;
+    }
+    case 3: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: false,
+      });
+      stateDispatch({
+        type: setPasswordStrength,
+        payload: 75,
+      });
+      break;
+    }
+    case 4: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: false,
+      });
+      stateDispatch({
+        type: setPasswordStrength,
+        payload: 100,
+      });
+      break;
+    }
+    default: {
+      stateDispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+      break;
+    }
+  }
+}
+
+export { functionsMap, returnRandomString, setPasswordStrengthState };

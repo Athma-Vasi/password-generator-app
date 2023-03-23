@@ -9,15 +9,6 @@ export type FunctionsMap = Map<number, (chars: Chars) => string>;
 
 export type FormMapObj = keyof Chars | "charLength";
 
-export type ReturnRandomStringProps = {
-  charLength: number;
-  upperCase: boolean;
-  lowerCase: boolean;
-  number: boolean;
-  symbol: boolean;
-  functionsMap: FunctionsMap;
-};
-
 export type State = {
   isUpperCaseSelected: boolean;
   isLowerCaseSelected: boolean;
