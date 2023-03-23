@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import { type State } from "../../types";
 
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
@@ -27,8 +26,6 @@ const Home: NextPage = () => {
   } = state;
 
   const {
-    setNoneInputsSelected,
-    setPasswordStrength,
     setGeneratedPassword,
     setIsCopyClicked,
     setCharLength,
@@ -52,7 +49,14 @@ const Home: NextPage = () => {
     });
 
     // generate password
-    if (!noneInputsSelected) {
+    if (noneInputsSelected) {
+      // if all inputs are deselected
+      dispatch({
+        type: setGeneratedPassword,
+        payload: "",
+      });
+    } else {
+      // if at least one input is selected
       let generatedPass = "";
 
       generatedPass = returnRandomString({
@@ -67,11 +71,6 @@ const Home: NextPage = () => {
       dispatch({
         type: setGeneratedPassword,
         payload: generatedPass,
-      });
-    } else {
-      dispatch({
-        type: setGeneratedPassword,
-        payload: "",
       });
     }
 

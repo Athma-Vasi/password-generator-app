@@ -3,7 +3,7 @@ import type {
   FunctionsMap,
   StateActions,
   StateDispatch,
-} from "../../types";
+} from "../types";
 import random from "random";
 
 /**
@@ -122,8 +122,8 @@ function returnRandomString({
   }
 
   // for the rest of the cases, a function is randomly selected
-  // a random number is chosen with both inclusive lowerbound and upperbound
-  // or a random number is chosen from an array for
+  // if the cases are sequential: a random number is chosen with both inclusive lowerbound and upperbound
+  // or a random number is chosen from an array of numbers
   // and is used as the key to get the function from the map
   // the function is called by passing in the chars object as many times as the charLength
 
@@ -170,7 +170,7 @@ function returnRandomString({
   // lowercase, numbers and symbols only
   if (!upperCase && lowerCase && number && symbol) {
     Array.from({ length: charLength }).forEach((_) => {
-      const randInt = random.choice([1, 2, 3]) ?? 0;
+      const randInt = random.choice([1, 2, 3]) ?? 1;
       const randFunc = functionsMap.get(randInt);
 
       if (randFunc !== undefined) result += randFunc(chars);
@@ -210,7 +210,7 @@ function returnRandomString({
   // lowercase and numbers only
   if (!upperCase && !symbol && lowerCase && number) {
     Array.from({ length: charLength }).forEach((_) => {
-      const randInt = random.choice([1, 2]) ?? 0;
+      const randInt = random.choice([1, 2]) ?? 1;
       const randFunc = functionsMap.get(randInt);
 
       if (randFunc !== undefined) result += randFunc(chars);
@@ -220,7 +220,7 @@ function returnRandomString({
   // lowercase and symbols only
   if (!upperCase && !number && lowerCase && symbol) {
     Array.from({ length: charLength }).forEach((_) => {
-      const randInt = random.choice([1, 3]) ?? 0;
+      const randInt = random.choice([1, 3]) ?? 1;
       const randFunc = functionsMap.get(randInt);
 
       if (randFunc !== undefined) result += randFunc(chars);
@@ -230,7 +230,7 @@ function returnRandomString({
   // numbers and symbols only
   if (!upperCase && !lowerCase && number && symbol) {
     Array.from({ length: charLength }).forEach((_) => {
-      const randInt = random.choice([2, 3]) ?? 0;
+      const randInt = random.choice([2, 3]) ?? 2;
       const randFunc = functionsMap.get(randInt);
 
       if (randFunc !== undefined) result += randFunc(chars);

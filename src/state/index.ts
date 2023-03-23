@@ -1,4 +1,4 @@
-import type { State, StateActions, StateDispatch } from "../../types";
+import type { State, StateActions, StateDispatch } from "../types";
 
 const initialState: State = {
   isUpperCaseSelected: false,

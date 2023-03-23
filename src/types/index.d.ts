@@ -7,8 +7,6 @@ type Chars = {
 
 type FunctionsMap = Map<number, (chars: Chars) => string>;
 
-type FormMapObj = keyof Chars | "charLength";
-
 type State = {
   isUpperCaseSelected: boolean;
   isLowerCaseSelected: boolean;
