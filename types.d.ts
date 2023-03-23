@@ -1,15 +1,15 @@
-export type Chars = {
+type Chars = {
   upperCase: string;
   lowerCase: string;
   number: string;
   symbol: string;
 };
 
-export type FunctionsMap = Map<number, (chars: Chars) => string>;
+type FunctionsMap = Map<number, (chars: Chars) => string>;
 
-export type FormMapObj = keyof Chars | "charLength";
+type FormMapObj = keyof Chars | "charLength";
 
-export type State = {
+type State = {
   isUpperCaseSelected: boolean;
   isLowerCaseSelected: boolean;
   isNumberSelected: boolean;
@@ -21,7 +21,7 @@ export type State = {
   generatedPassword: string;
 };
 
-export type StateActions = {
+type StateActions = {
   setIsUpperCaseSelected: "setIsUpperCaseSelected";
   setIsLowerCaseSelected: "setIsLowerCaseSelected";
   setIsNumberSelected: "setIsNumberSelected";
@@ -33,7 +33,9 @@ export type StateActions = {
   setGeneratedPassword: "setGeneratedPassword";
 };
 
-export type StateDispatch = {
+type StateDispatch = {
   type: StateActions[keyof StateActions];
   payload: boolean | number | string;
 };
+
+export { Chars, FunctionsMap, FormMapObj, State, StateActions, StateDispatch };

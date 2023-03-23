@@ -8,7 +8,7 @@ import {
   functionsMap,
   returnRandomString,
   setPasswordStrengthState,
-} from "../utils/functions";
+} from "../utils";
 import { initialState, stateActions, stateReducer } from "../state";
 
 const Home: NextPage = () => {
@@ -282,15 +282,6 @@ const Home: NextPage = () => {
             {/* right section */}
             <div className="flex w-[55%] flex-row items-center justify-between  sm:w-[42%] md:h-[50px] md:w-[38%]">
               <p className="text-xl font-bold tracking-wide md:text-2xl ">
-                {/* {passwordStrength < 25
-                  ? "EASY"
-                  : passwordStrength < 50
-                  ? "WEAK"
-                  : passwordStrength < 75
-                  ? "MEDIUM"
-                  : passwordStrength < 100
-                  ? "STRONG"
-                  : "CRYPTO"} */}
                 {passwordStrength === 0
                   ? ""
                   : passwordStrength === 25

@@ -40,7 +40,7 @@ const functionsMap: FunctionsMap = new Map([
   ],
 ]);
 
-export type ReturnRandomStringProps = {
+type ReturnRandomStringProps = {
   charLength: number;
   upperCase: boolean;
   lowerCase: boolean;
@@ -76,6 +76,7 @@ function returnRandomString({
     lowerCase: "abcdefghijklmnopqrstuvwxyz",
     number: "0123456789",
     symbol: "#$%^&*()_+~\\`|}{[]:;?><,./-=",
+    // symbol: "±©¡µ¢¼½¾»¼×÷¥¿¶¬®«£ÞÐÆŒæœßôûøØÝäë",
   };
 
   let result = "";
@@ -248,6 +249,19 @@ type SetPasswordStrengthStateProps = {
   stateActions: StateActions;
 };
 
+/**
+ * @description sets the passwordStrength state and noneInputsSelected state based on the params selected by the user
+ *
+ * @function
+ * @param {SetPasswordStrengthStateProps} props - props
+ * @param {boolean} props.isUpperCaseSelected - is uppercase selected
+ * @param {boolean} props.isLowerCaseSelected - is lowercase selected
+ * @param {boolean} props.isNumberSelected - is number selected
+ * @param {boolean} props.isSymbolSelected - is symbol selected
+ * @param {React.Dispatch<StateDispatch>} props.stateDispatch - state dispatch
+ * @param {StateActions} props.stateActions - state actions
+ * @returns {void} - void
+ */
 function setPasswordStrengthState({
   isUpperCaseSelected,
   isLowerCaseSelected,
