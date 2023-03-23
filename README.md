@@ -15,7 +15,7 @@ This is a simple password generator app that generates a random password. The us
 
 #### Technologies used:
 
-- [T3 Stack](https://create-t3-app-docs.vercel.app/en/introduction): Tailwind CSS and TypeScript only
+- [Create-T3-App](https://create-t3-app-docs.vercel.app/en/introduction): Tailwind CSS and TypeScript only
 - [React](https://react.dev/)
 - [NextJS](https://nextjs.org/docs/getting-started)
 - [random](https://www.npmjs.com/package/random) npm library
