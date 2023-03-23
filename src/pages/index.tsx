@@ -72,16 +72,15 @@ const Home: NextPage = () => {
     // generate password
     if (!noneInputsSelected) {
       let generatedPass = "";
-      while (generatedPass.length < Number(charLength)) {
-        generatedPass = returnRandomString({
-          upperCase: isUpperCaseIncluded,
-          lowerCase: isLowerCaseIncluded,
-          number: isNumberIncluded,
-          symbol: isSymbolIncluded,
-          charLength: Number(charLength),
-          functionsMap,
-        });
-      }
+
+      generatedPass = returnRandomString({
+        upperCase: isUpperCaseIncluded,
+        lowerCase: isLowerCaseIncluded,
+        number: isNumberIncluded,
+        symbol: isSymbolIncluded,
+        charLength: Number(charLength),
+        functionsMap,
+      });
 
       setGeneratedPassword(() => generatedPass);
     } else {
