@@ -17,3 +17,32 @@ export type ReturnRandomStringProps = {
   symbol: boolean;
   functionsMap: FunctionsMap;
 };
+
+export type State = {
+  isUpperCaseSelected: boolean;
+  isLowerCaseSelected: boolean;
+  isNumberSelected: boolean;
+  isSymbolSelected: boolean;
+  charLength: number;
+  noneInputsSelected: boolean;
+  isCopyClicked: boolean;
+  passwordStrength: number;
+  generatedPassword: string;
+};
+
+export type StateActions = {
+  setIsUpperCaseSelected: "setIsUpperCaseSelected";
+  setIsLowerCaseSelected: "setIsLowerCaseSelected";
+  setIsNumberSelected: "setIsNumberSelected";
+  setIsSymbolSelected: "setIsSymbolSelected";
+  setCharLength: "setCharLength";
+  setNoneInputsSelected: "setNoneInputsSelected";
+  setIsCopyClicked: "setIsCopyClicked";
+  setPasswordStrength: "setPasswordStrength";
+  setGeneratedPassword: "setGeneratedPassword";
+};
+
+export type StateDispatch = {
+  type: StateActions[keyof StateActions];
+  payload: boolean | number | string;
+};

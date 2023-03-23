@@ -2,97 +2,251 @@ import { type NextPage } from "next";
 
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { functionsMap, returnRandomString } from "../utils/functions";
+import { initialState, stateActions, stateReducer } from "../state";
+import { State } from "../../types";
 
 const Home: NextPage = () => {
-  const [charLength, setCharLength] = useState("20");
-  const [generatedPassword, setGeneratedPassword] = useState("");
-  const [noneInputsSelected, setNoneInputsSelected] = useState(true);
-  const [isCopyClicked, setIsCopyClicked] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(0);
-  //
-  const [isUpperCaseIncluded, setIsUpperCaseIncluded] = useState(false);
-  const [isLowerCaseIncluded, setIsLowerCaseIncluded] = useState(false);
-  const [isNumberIncluded, setIsNumberIncluded] = useState(false);
-  const [isSymbolIncluded, setIsSymbolIncluded] = useState(false);
+  const [state, dispatch] = useReducer(stateReducer, initialState);
 
-  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const {
+    isUpperCaseSelected,
+    isLowerCaseSelected,
+    isNumberSelected,
+    isSymbolSelected,
+    charLength,
+    noneInputsSelected,
+    isCopyClicked,
+    passwordStrength,
+    generatedPassword,
+  } = state;
 
-    const formData = new FormData(event.currentTarget);
-    console.log(formData.get("upperCase"));
-    console.log(formData.get("lowerCase"));
-    console.log(formData.get("number"));
-    console.log(formData.get("symbol"));
-    console.log(isUpperCaseIncluded);
-    console.log(isLowerCaseIncluded);
-    console.log(isNumberIncluded);
-    console.log(isSymbolIncluded);
+  const {
+    setNoneInputsSelected,
+    setPasswordStrength,
+    setGeneratedPassword,
+    setIsCopyClicked,
+    setCharLength,
+    setIsUpperCaseSelected,
+    setIsLowerCaseSelected,
+    setIsNumberSelected,
+    setIsSymbolSelected,
+  } = stateActions;
+
+  function setPasswordStrengthState(state: State) {
+    const {
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
+      charLength,
+    } = state;
 
     // set password strength
-    const amountOfParamsSelected = [
-      isUpperCaseIncluded,
-      isLowerCaseIncluded,
-      isNumberIncluded,
-      isSymbolIncluded,
+    let amountOfParamsSelected = [
+      isUpperCaseSelected,
+      isLowerCaseSelected,
+      isNumberSelected,
+      isSymbolSelected,
     ].filter((param) => param).length;
 
     switch (amountOfParamsSelected) {
       case 0: {
-        setNoneInputsSelected(() => true);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: true,
+        });
         break;
       }
       case 1: {
-        setNoneInputsSelected(() => false);
-        setPasswordStrength(() => 25);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: false,
+        });
+        dispatch({
+          type: setPasswordStrength,
+          payload: 25,
+        });
         break;
       }
       case 2: {
-        setNoneInputsSelected(() => false);
-        setPasswordStrength(() => 50);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: false,
+        });
+        dispatch({
+          type: setPasswordStrength,
+          payload: 50,
+        });
         break;
       }
       case 3: {
-        setNoneInputsSelected(() => false);
-        setPasswordStrength(() => 75);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: false,
+        });
+        dispatch({
+          type: setPasswordStrength,
+          payload: 75,
+        });
         break;
       }
       case 4: {
-        setNoneInputsSelected(() => false);
-        setPasswordStrength(() => 100);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: false,
+        });
+        dispatch({
+          type: setPasswordStrength,
+          payload: 100,
+        });
         break;
       }
       default: {
-        setNoneInputsSelected(() => true);
+        dispatch({
+          type: setNoneInputsSelected,
+          payload: true,
+        });
         break;
       }
     }
+  }
+
+  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    // set password strength
+    setPasswordStrengthState(state);
 
     // generate password
     if (!noneInputsSelected) {
       let generatedPass = "";
 
       generatedPass = returnRandomString({
-        upperCase: isUpperCaseIncluded,
-        lowerCase: isLowerCaseIncluded,
-        number: isNumberIncluded,
-        symbol: isSymbolIncluded,
+        upperCase: isUpperCaseSelected,
+        lowerCase: isLowerCaseSelected,
+        number: isNumberSelected,
+        symbol: isSymbolSelected,
         charLength: Number(charLength),
         functionsMap,
       });
 
-      setGeneratedPassword(() => generatedPass);
+      dispatch({
+        type: setGeneratedPassword,
+        payload: generatedPass,
+      });
     } else {
-      setGeneratedPassword(() => "");
+      dispatch({
+        type: setGeneratedPassword,
+        payload: "",
+      });
     }
 
-    setIsCopyClicked(() => false);
+    dispatch({
+      type: setIsCopyClicked,
+      payload: false,
+    });
   }
 
   function handleCopyClick(event: React.MouseEvent<SVGElement, MouseEvent>) {
     navigator.clipboard.writeText(generatedPassword);
-    setIsCopyClicked(() => true);
+    dispatch({
+      type: setIsCopyClicked,
+      payload: true,
+    });
+  }
+
+  function handleCharLengthChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const charLength = Number(event.currentTarget.value);
+    dispatch({
+      type: setCharLength,
+      payload: charLength,
+    });
+  }
+
+  function handleUppercaseSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const isUpperCaseSelected = event.currentTarget.checked;
+    dispatch({
+      type: setIsUpperCaseSelected,
+      payload: isUpperCaseSelected,
+    });
+
+    // if all inputs are deselected, set noneInputsSelected to true
+    if (
+      !isUpperCaseSelected &&
+      !isLowerCaseSelected &&
+      !isNumberSelected &&
+      !isSymbolSelected
+    ) {
+      dispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+    }
+  }
+
+  function handleLowercaseSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const isLowerCaseSelected = event.currentTarget.checked;
+    dispatch({
+      type: setIsLowerCaseSelected,
+      payload: isLowerCaseSelected,
+    });
+
+    // if all inputs are deselected, set noneInputsSelected to true
+    if (
+      !isUpperCaseSelected &&
+      !isLowerCaseSelected &&
+      !isNumberSelected &&
+      !isSymbolSelected
+    ) {
+      dispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+    }
+  }
+
+  function handleNumberSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const isNumberSelected = event.currentTarget.checked;
+    dispatch({
+      type: setIsNumberSelected,
+      payload: isNumberSelected,
+    });
+
+    // if all inputs are deselected, set noneInputsSelected to true
+    if (
+      !isUpperCaseSelected &&
+      !isLowerCaseSelected &&
+      !isNumberSelected &&
+      !isSymbolSelected
+    ) {
+      dispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+    }
+  }
+
+  function handleSymbolSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const isSymbolSelected = event.currentTarget.checked;
+    dispatch({
+      type: setIsSymbolSelected,
+      payload: isSymbolSelected,
+    });
+
+    // if all inputs are deselected, set noneInputsSelected to true
+    if (
+      !isUpperCaseSelected &&
+      !isLowerCaseSelected &&
+      !isNumberSelected &&
+      !isSymbolSelected
+    ) {
+      dispatch({
+        type: setNoneInputsSelected,
+        payload: true,
+      });
+    }
   }
 
   return (
@@ -143,7 +297,7 @@ const Home: NextPage = () => {
               min="8"
               max="32"
               value={charLength}
-              onChange={(event) => setCharLength(event.currentTarget.value)}
+              onChange={handleCharLengthChange}
               className="-mt-6 w-full"
             />
           </div>
@@ -154,9 +308,7 @@ const Home: NextPage = () => {
               type="checkbox"
               name="upperCase"
               id="upperCase"
-              onChange={(event) =>
-                setIsUpperCaseIncluded(event.currentTarget.checked)
-              }
+              onChange={handleUppercaseSelected}
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">
@@ -170,9 +322,7 @@ const Home: NextPage = () => {
               type="checkbox"
               name="lowerCase"
               id="lowerCase"
-              onChange={(event) =>
-                setIsLowerCaseIncluded(event.currentTarget.checked)
-              }
+              onChange={handleLowercaseSelected}
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">
@@ -186,9 +336,7 @@ const Home: NextPage = () => {
               type="checkbox"
               name="number"
               id="number"
-              onChange={(event) =>
-                setIsNumberIncluded(event.currentTarget.checked)
-              }
+              onChange={handleNumberSelected}
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">Include Numbers</p>
@@ -200,9 +348,7 @@ const Home: NextPage = () => {
               type="checkbox"
               name="symbol"
               id="symbol"
-              onChange={(event) =>
-                setIsSymbolIncluded(event.currentTarget.checked)
-              }
+              onChange={handleSymbolSelected}
               className="sm:scale-125 md:scale-150"
             />
             <p className="ml-4 sm:text-xl md:text-2xl">Include Symbols</p>
@@ -255,7 +401,10 @@ const Home: NextPage = () => {
 
           <button
             type="submit"
-            className="h-[50px] w-full  bg-myTeal text-gray-900 "
+            className={`h-[50px] w-full ${
+              noneInputsSelected ? "bg-slate-300" : "bg-myTeal"
+            } text-gray-900 `}
+            disabled={noneInputsSelected}
           >
             <span className="font-bold tracking-widest sm:text-xl md:text-xl">
               GENERATE
