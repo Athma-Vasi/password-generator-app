@@ -4,7 +4,7 @@ This is a simple password generator app that generates a random password based o
 
 #### [Click here to view live project](https://password-generator-app-sable.vercel.app/)
 
-#### Screenshot
+#### Screenshots
 
 <div align="center">
   <img src="./src/images/app-weak-strength.png" alt="screenshot of app" width='125px'></img>
@@ -15,10 +15,13 @@ This is a simple password generator app that generates a random password based o
 
 #### Technologies used:
 
-- [Create-T3-App](https://create-t3-app-docs.vercel.app/en/introduction): Tailwind CSS and TypeScript only
+- [Create-T3-App](https://create-t3-app-docs.vercel.app/en/introduction)
+- [TailwindCSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 - [React](https://react.dev/)
 - [NextJS](https://nextjs.org/docs/getting-started)
 - [random](https://www.npmjs.com/package/random) npm library
+- [Vercel](https://vercel.com/)
 
 This is a challenge from [frontendmentor](https://www.frontendmentor.io/challenges/password-generator-app-Mr8CLycqjh).
 
